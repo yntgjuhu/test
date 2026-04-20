@@ -53,6 +53,43 @@ section {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+section.habitat-card {
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+section.habitat-card:hover {
+    background-color: #f0fff0;
+    transform: translateY(-3px);
+}
+
+#habitatInfo {
+    max-width: 800px;
+    margin: 0 auto 2em;
+    padding: 1em;
+}
+
+#habitatResult {
+    margin-top: 1em;
+}
+
+#habitatResult .animal-card {
+    display: inline-block;
+    width: calc(50% - 1em);
+    margin: 0.5em;
+    vertical-align: top;
+    text-align: center;
+}
+
+#habitatResult .animal-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+#habitatResult .animal-card p {
+    margin: 0.5em 0 0;
+}
+
 h2 {
     color: #4CAF50;
 }

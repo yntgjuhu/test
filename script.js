@@ -125,6 +125,28 @@ const organisms = [
 ];
 
 // 搜尋功能
+function displayHabitatAnimals(habitat) {
+    const habitatResult = document.getElementById('habitatResult');
+    const animals = organisms.filter(org => org.habitat === habitat);
+
+    if (animals.length === 0) {
+        habitatResult.innerHTML = `<p>此棲息地目前沒有資料。</p>`;
+        return;
+    }
+
+    habitatResult.innerHTML = `
+        <p><strong>${habitat}</strong> 的生物：</p>
+        <div class="animal-list">
+            ${animals.map(org => `
+                <div class="animal-card">
+                    <img src="${org.image}" alt="${org.name}">
+                    <p>${org.name}</p>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
 document.getElementById('searchButton').addEventListener('click', function() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
     const resultDiv = document.getElementById('searchResult');
@@ -165,5 +187,11 @@ document.addEventListener('DOMContentLoaded', function() {
         section.style.transform = 'translateY(20px)';
         section.style.transition = 'opacity 0.5s, transform 0.5s';
         observer.observe(section);
+    });
+
+    document.querySelectorAll('section.habitat-card').forEach(section => {
+        section.addEventListener('click', () => {
+            displayHabitatAnimals(section.dataset.habitat);
+        });
     });
 });
