@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+nav {
+    background-color: #333;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 1em;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+main {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 0 1em;
+}
+
+section {
+    margin-bottom: 2em;
+    padding: 1em;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #4CAF50;
+}
+
+#search {
+    background-color: #e8f5e8;
+    padding: 1em;
+    margin: 1em auto;
+    max-width: 600px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#searchInput {
+    padding: 0.5em;
+    width: 60%;
+    margin-right: 0.5em;
+}
+
+#searchButton {
+    padding: 0.5em 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#searchButton:hover {
+    background-color: #45a049;
+}
+
+#searchResult {
+    margin-top: 1em;
+    text-align: left;
+}
+
+#searchResult img {
+    margin: 1em 0;
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    background-color: #333;
+    color: white;
+}
