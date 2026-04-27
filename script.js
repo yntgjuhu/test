@@ -139,7 +139,7 @@ function displayHabitatAnimals(habitat) {
         <div class="animal-list">
             ${animals.map(org => `
                 <div class="animal-card">
-                    <img src="${org.image}" alt="${org.name}">
+                    <img src="${org.image}" alt="${org.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22300%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216px%22%3E圖片無法加載%3C/text%3E%3C/svg%3E'">
                     <p>${org.name}</p>
                 </div>
             `).join('')}
@@ -162,7 +162,7 @@ document.getElementById('searchButton').addEventListener('click', function() {
     if (found) {
         resultDiv.innerHTML = `
             <h3>${found.name}</h3>
-            <img src="${found.image}" alt="${found.name}" style="max-width: 300px;">
+            <img src="${found.image}" alt="${found.name}" style="max-width: 300px; width: 100%; height: auto;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22300%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2216px%22%3E圖片無法加載%3C/text%3E%3C/svg%3E'">
             <p><strong>棲息地：</strong>${found.habitat}</p>
         `;
     } else {
