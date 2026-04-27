@@ -28,6 +28,120 @@ function getAnimalColor(name) {
     return animalColors[name] || '#888888';
 }
 
+function getAnimalImageName(name) {
+    // 將動物名稱映射到圖片文件名
+    const imageMap = {
+        '熊': 'bear',
+        '鹿': 'deer',
+        '松鼠': 'squirrel',
+        '狼': 'wolf',
+        '兔子': 'rabbit',
+        '狐狸': 'fox',
+        '鯊魚': 'shark',
+        '海豚': 'dolphin',
+        '珊瑚': 'coral',
+        '章魚': 'octopus',
+        '海龜': 'sea_turtle',
+        '鯨魚': 'whale',
+        '抹香鯨': 'sperm_whale',
+        '海龍': 'sea_dragon',
+        '海兔': 'sea_hare',
+        '旗魚': 'swordfish',
+        '小丑魚': 'clownfish',
+        '水母': 'jellyfish',
+        '海葵': 'sea_anemone',
+        '白鯨': 'beluga_whale',
+        '海鰻': 'moray_eel',
+        '駱駝': 'camel',
+        '蜥蜴': 'lizard',
+        '仙人掌': 'cactus',
+        '蠍子': 'scorpion',
+        '蛇': 'snake',
+        '沙漠狐': 'desert_fox',
+        '獅子': 'lion',
+        '斑馬': 'zebra',
+        '羚羊': 'antelope',
+        '大象': 'elephant',
+        '長頸鹿': 'giraffe',
+        '草原狼': 'prairie_wolf',
+        '北極熊': 'polar_bear',
+        '馴鹿': 'reindeer',
+        '雪鴞': 'snowy_owl',
+        '北極狐': 'arctic_fox',
+        '海豹': 'seal',
+        '苔蘚': 'moss',
+        '鴿子': 'pigeon',
+        '老鼠': 'mouse',
+        '貓': 'cat',
+        '狗': 'dog',
+        '鳥類': 'bird',
+        '青蛙': 'frog',
+        '魚類': 'fish',
+        '海星': 'starfish',
+        '海膽': 'sea_urchin',
+        '沙漠鳥': 'desert_bird',
+        '草原鳥': 'prairie_bird',
+        '河馬': 'hippopotamus',
+        '凍原鳥': 'tundra_bird',
+        '凍原魚': 'arctic_fish',
+        '城市鳥': 'city_bird',
+        '城市植物': 'city_plant',
+        '蝙蝠': 'bat',
+        '海獺': 'sea_otter',
+        '海獅': 'sea_lion',
+        '海馬': 'seahorse',
+        '沙漠兔': 'desert_rabbit',
+        '沙漠烏龜': 'desert_tortoise',
+        '獵豹': 'cheetah',
+        '犀牛': 'rhinoceros',
+        '北極兔': 'arctic_hare',
+        '海象': 'walrus',
+        '鷹': 'eagle',
+        '烏鴉': 'crow',
+        '麻雀': 'sparrow',
+        '貓頭鷹': 'owl',
+        '山貓': 'bobcat',
+        '穿山甲': 'pangolin',
+        '貓熊': 'panda',
+        '水獺': 'otter',
+        '鴕鳥': 'ostrich',
+        '浣熊': 'raccoon',
+        '鴨子': 'duck',
+        '老虎': 'tiger',
+        '猩猩': 'orangutan',
+        '水鹿': 'water_deer',
+        '眼鏡蛇': 'cobra',
+        '砂貓': 'sand_cat',
+        '野牛': 'bison',
+        '水牛': 'water_buffalo',
+        '北極狼': 'arctic_wolf',
+        '海牛': 'manatee',
+        '山豬': 'boar',
+        '食蟻獸': 'anteater',
+        '魟魚': 'ray',
+        '鯨鯊': 'whale_shark',
+        '藍鯨': 'blue_whale',
+        '魔鬼魚': 'devil_ray',
+        '海蛇': 'sea_snake',
+        '海參': 'sea_cucumber',
+        '龍蝦': 'lobster',
+        '鮟鱇魚': 'anglerfish',
+        '燈籠魚': 'lanternfish',
+        '烏賊': 'squid',
+        '鬣蜥': 'iguana',
+        '羚牛': 'gnu',
+        '袋鼠': 'kangaroo',
+        '麝牛': 'muskox',
+        '樹懶': 'sloth',
+        '變色龍': 'chameleon',
+        '鴨嘴獸': 'platypus',
+        '企鵝': 'penguin',
+        '山羊': 'goat'
+    };
+
+    return imageMap[name] || 'unknown_animal';
+}
+
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 function createSvgElement(tag, attrs = {}) {
@@ -337,11 +451,45 @@ function createAnimalSvgElement(name, color) {
 function createAnimalShapeElement(org) {
     const wrapper = document.createElement('div');
     wrapper.className = 'animal-shape';
-    const svg = createAnimalSvgElement(org.name, getAnimalColor(org.name));
-    wrapper.appendChild(svg);
+
+    // 創建圖片元素而不是SVG
+    const img = document.createElement('img');
+    img.alt = org.name;
+    img.loading = 'lazy';
+
+    // 根據動物名稱設置圖片路徑
+    const imageName = getAnimalImageName(org.name);
+    img.src = `images/${imageName}.jpg`;
+
+    // 添加錯誤處理，如果圖片載入失敗，顯示動物名稱
+    img.onerror = function() {
+        console.log(`圖片載入失敗: ${imageName}.jpg`);
+        // 創建一個備用顯示，顯示動物名稱
+        const fallback = document.createElement('div');
+        fallback.className = 'animal-fallback';
+        fallback.textContent = org.name;
+        fallback.style.cssText = `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: ${getAnimalColor(org.name)};
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        `;
+        wrapper.innerHTML = '';
+        wrapper.appendChild(fallback);
+    };
+
+    wrapper.appendChild(img);
 
     // 添加調試信息
-    console.log(`Created SVG for ${org.name}:`, svg.outerHTML.substring(0, 200) + '...');
+    console.log(`Created image for ${org.name}: images/${imageName}.jpg`);
 
     return wrapper;
 }
