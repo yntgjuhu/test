@@ -41,60 +41,81 @@ function createSvgElement(tag, attrs = {}) {
 function createAnimalSvgElement(name, color) {
     const svg = createSvgElement('svg', { viewBox: '0 0 320 200', xmlns: SVG_NS });
     const stroke = '#333';
+    const strokeWidth = '3';
 
-    function addPolygon(points, fill, extra = {}) {
-        const attrs = { points, fill, stroke, 'stroke-width': '2', ...extra };
-        svg.appendChild(createSvgElement('polygon', attrs));
+    function addPath(d, extra = {}) {
+        const attrs = { d, fill: 'none', stroke, 'stroke-width': strokeWidth, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', ...extra };
+        svg.appendChild(createSvgElement('path', attrs));
     }
 
     function addCircle(cx, cy, r, fill, extra = {}) {
-        const attrs = { cx, cy, r, fill, ...extra };
+        const attrs = { cx, cy, r, fill, stroke, 'stroke-width': '2', ...extra };
         svg.appendChild(createSvgElement('circle', attrs));
     }
 
     if (/鳥|鴿|麻雀|鷹|貓頭鴉|企鵝|鴕鳥/.test(name)) {
-        addPolygon('60,140 100,80 140,60 180,80 220,140 200,130 180,150 140,150 120,140', color);
-        addPolygon('140,70 160,50 180,70 160,90', '#fff', { opacity: '0.6' });
-        addPolygon('220,120 260,100 280,110 240,140', '#ffd54f');
-        addCircle('130', '110', '12', '#fff');
-        addCircle('130', '110', '5', '#333');
+        // 鳥類輪廓 - 參考 wiki 鳥類圖片
+        addPath('M 80,160 Q 100,120 120,100 Q 140,80 160,90 Q 180,100 200,120 Q 220,140 240,160'); // 身體輪廓
+        addPath('M 120,100 Q 110,85 100,90 Q 95,95 100,105'); // 頭部
+        addPath('M 160,90 Q 170,75 180,80 Q 185,85 180,95'); // 頭部另一側
+        addPath('M 140,110 Q 130,95 120,100'); // 脖子
+        addPath('M 180,110 Q 190,95 200,100'); // 脖子另一側
+        addPath('M 100,120 Q 80,110 70,130 Q 75,150 90,140'); // 左翅膀
+        addPath('M 220,120 Q 240,110 250,130 Q 245,150 230,140'); // 右翅膀
+        addPath('M 130,140 Q 120,155 110,150'); // 左腳
+        addPath('M 190,140 Q 200,155 210,150'); // 右腳
+        addCircle('115', '95', '3', 'none'); // 左眼
+        addCircle('185', '95', '3', 'none'); // 右眼
         return svg;
     }
 
     if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅/.test(name)) {
-        addPolygon('40,100 120,60 210,70 260,100 210,130 120,140', color);
-        addPolygon('260,100 300,80 300,120', color);
-        addPolygon('110,70 130,40 150,70', '#fff', { opacity: '0.6' });
-        addCircle('90', '95', '10', '#fff');
-        addCircle('90', '95', '4', '#333');
+        // 魚類輪廓 - 參考 wiki 魚類圖片
+        addPath('M 50,100 Q 80,70 120,80 Q 160,75 200,90 Q 240,100 260,110 Q 240,130 200,120 Q 160,125 120,120 Q 80,130 50,110 Z'); // 魚身輪廓
+        addPath('M 260,100 Q 280,85 290,95 Q 285,115 270,110'); // 魚尾
+        addPath('M 50,95 Q 30,85 25,100 Q 30,115 50,105'); // 魚頭
+        addPath('M 120,85 Q 110,75 100,80'); // 魚鰭上
+        addPath('M 120,115 Q 110,125 100,120'); // 魚鰭下
+        addCircle('70', '100', '4', 'none'); // 魚眼
         return svg;
     }
 
     if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠/.test(name)) {
-        addPolygon('40,120 80,110 120,130 160,110 200,130 240,115 280,120 300,135 280,150 240,145 200,130 160,145 120,140 80,160 40,150', color);
-        addCircle('40', '120', '12', color);
-        addPolygon('35,120 15,110 15,130', '#ffcc00');
-        addCircle('44', '116', '4', '#333');
+        // 爬行類輪廓 - 參考 wiki 爬行動物圖片
+        addPath('M 40,120 Q 60,110 80,115 Q 100,120 120,115 Q 140,110 160,120 Q 180,130 200,125 Q 220,120 240,125 Q 260,130 280,125 Q 290,120 295,130'); // 蛇身曲線
+        addPath('M 40,125 Q 35,135 45,140 Q 50,135 45,125'); // 蛇頭
+        addPath('M 295,130 Q 300,140 310,135 Q 305,125 295,130'); // 蛇尾
+        addPath('M 120,115 Q 115,105 110,110'); // 鱗片1
+        addPath('M 160,120 Q 155,110 150,115'); // 鱗片2
+        addPath('M 200,125 Q 195,115 190,120'); // 鱗片3
+        addCircle('45', '135', '2', 'none'); // 蛇眼
         return svg;
     }
 
     if (/仙人掌|城市植物|苔蘚|植物/.test(name)) {
-        svg.appendChild(createSvgElement('rect', { x: '150', y: '100', width: '20', height: '70', fill: '#8b5a2b' }));
-        addPolygon('160,100 120,70 160,40 200,70', color);
-        addPolygon('130,90 100,70 110,100 130,110', color);
-        addPolygon('190,90 220,70 210,100 190,110', color);
-        addCircle('160', '70', '10', '#fff', { opacity: '0.8' });
+        // 植物輪廓 - 參考 wiki 仙人掌圖片
+        addPath('M 160,180 L 160,120'); // 主幹
+        addPath('M 140,140 Q 120,120 140,100 Q 160,90 180,100 Q 200,120 180,140'); // 左刺
+        addPath('M 180,140 Q 200,120 180,100 Q 160,90 140,100 Q 120,120 140,140'); // 右刺
+        addPath('M 150,130 Q 130,110 150,90 Q 170,85 190,90 Q 210,110 190,130'); // 上刺
+        addPath('M 170,130 Q 190,110 170,90 Q 150,85 130,90 Q 110,110 130,130'); // 下刺
+        addPath('M 155,110 Q 145,100 155,90'); // 小刺1
+        addPath('M 165,110 Q 175,100 165,90'); // 小刺2
         return svg;
     }
 
-    addPolygon('60,130 110,80 150,60 200,80 260,130 240,145 120,145', color);
-    addPolygon('90,80 110,45 130,80', color);
-    addPolygon('200,80 220,45 240,80', color);
-    addCircle('130', '100', '10', '#fff');
-    addCircle('130', '100', '4', '#333');
-    addCircle('210', '100', '10', '#fff');
-    addCircle('210', '100', '4', '#333');
-    addPolygon('250,130 280,120 290,140 260,150', color);
+    // 哺乳類輪廓 - 參考 wiki 熊圖片
+    addPath('M 80,160 Q 100,130 120,120 Q 140,110 160,115 Q 180,120 200,130 Q 220,150 240,160'); // 熊身輪廓
+    addPath('M 120,120 Q 110,100 130,90 Q 150,85 170,90 Q 190,100 180,120'); // 熊頭
+    addPath('M 140,115 Q 130,105 120,110'); // 左耳
+    addPath('M 180,115 Q 190,105 200,110'); // 右耳
+    addPath('M 100,140 Q 90,125 80,135'); // 左前腳
+    addPath('M 220,140 Q 230,125 240,135'); // 右前腳
+    addPath('M 120,160 Q 110,175 100,170'); // 左後腳
+    addPath('M 200,160 Q 210,175 220,170'); // 右後腳
+    addCircle('145', '105', '4', 'none'); // 左眼
+    addCircle('175', '105', '4', 'none'); // 右眼
+    addPath('M 160,115 Q 155,120 165,120'); // 鼻子
     return svg;
 }
 

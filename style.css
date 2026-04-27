@@ -103,6 +103,8 @@ section.habitat-card:hover {
     width: 100%;
     height: 100%;
     display: block;
+    background-color: #f8f8f8;
+    border-radius: 8px;
 }
 
 #habitatResult .animal-card img {
