@@ -28,62 +28,81 @@ function getAnimalColor(name) {
     return animalColors[name] || '#888888';
 }
 
-function createAnimalSvg(name, color) {
-    const stroke = '#333';
-    if (/鳥|鴿|麻雀|鷹|貓頭鷹|企鵝|鴕鳥/.test(name)) {
-        return `
-            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="60,140 100,80 140,60 180,80 220,140 200,130 180,150 140,150 120,140" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="140,70 160,50 180,70 160,90" fill="#fff" opacity="0.6"/>
-                <polygon points="220,120 260,100 280,110 240,140" fill="#ffd54f"/>
-                <circle cx="130" cy="110" r="12" fill="#fff"/>
-                <circle cx="130" cy="110" r="5" fill="#333"/>
-            </svg>`;
-    }
-    if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅/.test(name)) {
-        return `
-            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="40,100 120,60 210,70 260,100 210,130 120,140" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="260,100 300,80 300,120" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="110,70 130,40 150,70" fill="#fff" opacity="0.6"/>
-                <circle cx="90" cy="95" r="10" fill="#fff"/>
-                <circle cx="90" cy="95" r="4" fill="#333"/>
-            </svg>`;
-    }
-    if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠|蛇/.test(name)) {
-        return `
-            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="40,120 80,110 120,130 160,110 200,130 240,115 280,120 300,135 280,150 240,145 200,130 160,145 120,140 80,160 40,150" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <circle cx="40" cy="120" r="12" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="35,120 15,110 15,130" fill="#ffcc00"/>
-                <circle cx="44" cy="116" r="4" fill="#333"/>
-            </svg>`;
-    }
-    if (/仙人掌|城市植物|苔蘚|植物/.test(name)) {
-        return `
-            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-                <rect x="150" y="100" width="20" height="70" fill="#8b5a2b"/>
-                <polygon points="160,100 120,70 160,40 200,70" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="130,90 100,70 110,100 130,110" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <polygon points="190,90 220,70 210,100 190,110" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-                <circle cx="160" cy="70" r="10" fill="#fff" opacity="0.8"/>
-            </svg>`;
-    }
-    return `
-        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="60,130 110,80 150,60 200,80 260,130 240,145 120,145" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-            <polygon points="90,80 110,45 130,80" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-            <polygon points="200,80 220,45 240,80" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-            <circle cx="130" cy="100" r="10" fill="#fff"/>
-            <circle cx="130" cy="100" r="4" fill="#333"/>
-            <circle cx="210" cy="100" r="10" fill="#fff"/>
-            <circle cx="210" cy="100" r="4" fill="#333"/>
-            <polygon points="250,130 280,120 290,140 260,150" fill="${color}" stroke="${stroke}" stroke-width="2"/>
-        </svg>`;
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function createSvgElement(tag, attrs = {}) {
+    const el = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => {
+        el.setAttribute(key, value);
+    });
+    return el;
 }
 
-function renderAnimalShape(org) {
-    return `<div class="animal-shape">${createAnimalSvg(org.name, getAnimalColor(org.name))}</div>`;
+function createAnimalSvgElement(name, color) {
+    const svg = createSvgElement('svg', { viewBox: '0 0 320 200', xmlns: SVG_NS });
+    const stroke = '#333';
+
+    function addPolygon(points, fill, extra = {}) {
+        const attrs = { points, fill, stroke, 'stroke-width': '2', ...extra };
+        svg.appendChild(createSvgElement('polygon', attrs));
+    }
+
+    function addCircle(cx, cy, r, fill, extra = {}) {
+        const attrs = { cx, cy, r, fill, ...extra };
+        svg.appendChild(createSvgElement('circle', attrs));
+    }
+
+    if (/鳥|鴿|麻雀|鷹|貓頭鴉|企鵝|鴕鳥/.test(name)) {
+        addPolygon('60,140 100,80 140,60 180,80 220,140 200,130 180,150 140,150 120,140', color);
+        addPolygon('140,70 160,50 180,70 160,90', '#fff', { opacity: '0.6' });
+        addPolygon('220,120 260,100 280,110 240,140', '#ffd54f');
+        addCircle('130', '110', '12', '#fff');
+        addCircle('130', '110', '5', '#333');
+        return svg;
+    }
+
+    if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅/.test(name)) {
+        addPolygon('40,100 120,60 210,70 260,100 210,130 120,140', color);
+        addPolygon('260,100 300,80 300,120', color);
+        addPolygon('110,70 130,40 150,70', '#fff', { opacity: '0.6' });
+        addCircle('90', '95', '10', '#fff');
+        addCircle('90', '95', '4', '#333');
+        return svg;
+    }
+
+    if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠/.test(name)) {
+        addPolygon('40,120 80,110 120,130 160,110 200,130 240,115 280,120 300,135 280,150 240,145 200,130 160,145 120,140 80,160 40,150', color);
+        addCircle('40', '120', '12', color);
+        addPolygon('35,120 15,110 15,130', '#ffcc00');
+        addCircle('44', '116', '4', '#333');
+        return svg;
+    }
+
+    if (/仙人掌|城市植物|苔蘚|植物/.test(name)) {
+        svg.appendChild(createSvgElement('rect', { x: '150', y: '100', width: '20', height: '70', fill: '#8b5a2b' }));
+        addPolygon('160,100 120,70 160,40 200,70', color);
+        addPolygon('130,90 100,70 110,100 130,110', color);
+        addPolygon('190,90 220,70 210,100 190,110', color);
+        addCircle('160', '70', '10', '#fff', { opacity: '0.8' });
+        return svg;
+    }
+
+    addPolygon('60,130 110,80 150,60 200,80 260,130 240,145 120,145', color);
+    addPolygon('90,80 110,45 130,80', color);
+    addPolygon('200,80 220,45 240,80', color);
+    addCircle('130', '100', '10', '#fff');
+    addCircle('130', '100', '4', '#333');
+    addCircle('210', '100', '10', '#fff');
+    addCircle('210', '100', '4', '#333');
+    addPolygon('250,130 280,120 290,140 260,150', color);
+    return svg;
+}
+
+function createAnimalShapeElement(org) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'animal-shape';
+    wrapper.appendChild(createAnimalSvgElement(org.name, getAnimalColor(org.name)));
+    return wrapper;
 }
 
 // 平滑滾動到錨點
@@ -224,15 +243,18 @@ function displayHabitatAnimals(habitat) {
 
     habitatResult.innerHTML = `
         <p><strong>${habitat}</strong> 的生物：</p>
-        <div class="animal-list">
-            ${animals.map(org => `
-                <div class="animal-card">
-                    ${renderAnimalShape(org)}
-                    <p>${org.name}</p>
-                </div>
-            `).join('')}
-        </div>
+        <div class="animal-list"></div>
     `;
+    const animalList = habitatResult.querySelector('.animal-list');
+    animals.forEach(org => {
+        const card = document.createElement('div');
+        card.className = 'animal-card';
+        card.appendChild(createAnimalShapeElement(org));
+        const label = document.createElement('p');
+        label.textContent = org.name;
+        card.appendChild(label);
+        animalList.appendChild(card);
+    });
 }
 
 document.getElementById('searchButton').addEventListener('click', function() {
@@ -248,13 +270,20 @@ document.getElementById('searchButton').addEventListener('click', function() {
     const found = organisms.find(org => org.name.toLowerCase() === query);
 
     if (found) {
-        resultDiv.innerHTML = `
-            <h3>${found.name}</h3>
-            <div style="margin: 1em 0; width: 300px;">
-                ${renderAnimalShape(found)}
-            </div>
-            <p><strong>棲息地：</strong>${found.habitat}</p>
-        `;
+        resultDiv.innerHTML = '';
+        const title = document.createElement('h3');
+        title.textContent = found.name;
+        resultDiv.appendChild(title);
+
+        const shapeContainer = document.createElement('div');
+        shapeContainer.style.margin = '1em 0';
+        shapeContainer.style.width = '300px';
+        shapeContainer.appendChild(createAnimalShapeElement(found));
+        resultDiv.appendChild(shapeContainer);
+
+        const habitatText = document.createElement('p');
+        habitatText.innerHTML = `<strong>棲息地：</strong>${found.habitat}`;
+        resultDiv.appendChild(habitatText);
     } else {
         resultDiv.innerHTML = '<p>未找到此生物。</p>';
     }
