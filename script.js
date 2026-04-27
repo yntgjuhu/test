@@ -53,7 +53,7 @@ function createAnimalSvgElement(name, color) {
         svg.appendChild(createSvgElement('circle', attrs));
     }
 
-    if (/鳥|鴿|麻雀|鷹|貓頭鴉|企鵝|鴕鳥/.test(name)) {
+    if (/鳥|鴿|麻雀|鷹|貓頭鴉|企鵝|鴕鳥|雪鴞|沙漠鳥|草原鳥|凍原鳥|城市鳥/.test(name)) {
         // 鳥類輪廓 - 參考 wiki 鳥類圖片
         addPath('M 80,160 Q 100,120 120,100 Q 140,80 160,90 Q 180,100 200,120 Q 220,140 240,160'); // 身體輪廓
         addPath('M 120,100 Q 110,85 100,90 Q 95,95 100,105'); // 頭部
@@ -69,7 +69,7 @@ function createAnimalSvgElement(name, color) {
         return svg;
     }
 
-    if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅/.test(name)) {
+    if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅|海龍|海兔|海鰻|旗魚|小丑魚|白鯨|抹香鯨|大王烏賊|凍原魚/.test(name)) {
         // 魚類輪廓 - 參考 wiki 魚類圖片
         addPath('M 50,100 Q 80,70 120,80 Q 160,75 200,90 Q 240,100 260,110 Q 240,130 200,120 Q 160,125 120,120 Q 80,130 50,110 Z'); // 魚身輪廓
         addPath('M 260,100 Q 280,85 290,95 Q 285,115 270,110'); // 魚尾
@@ -80,7 +80,7 @@ function createAnimalSvgElement(name, color) {
         return svg;
     }
 
-    if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠/.test(name)) {
+    if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠|蠍子/.test(name)) {
         // 爬行類輪廓 - 參考 wiki 爬行動物圖片
         addPath('M 40,120 Q 60,110 80,115 Q 100,120 120,115 Q 140,110 160,120 Q 180,130 200,125 Q 220,120 240,125 Q 260,130 280,125 Q 290,120 295,130'); // 蛇身曲線
         addPath('M 40,125 Q 35,135 45,140 Q 50,135 45,125'); // 蛇頭
@@ -92,15 +92,24 @@ function createAnimalSvgElement(name, color) {
         return svg;
     }
 
-    if (/仙人掌|城市植物|苔蘚|植物/.test(name)) {
-        // 植物輪廓 - 參考 wiki 仙人掌圖片
-        addPath('M 160,180 L 160,120'); // 主幹
-        addPath('M 140,140 Q 120,120 140,100 Q 160,90 180,100 Q 200,120 180,140'); // 左刺
-        addPath('M 180,140 Q 200,120 180,100 Q 160,90 140,100 Q 120,120 140,140'); // 右刺
-        addPath('M 150,130 Q 130,110 150,90 Q 170,85 190,90 Q 210,110 190,130'); // 上刺
-        addPath('M 170,130 Q 190,110 170,90 Q 150,85 130,90 Q 110,110 130,130'); // 下刺
-        addPath('M 155,110 Q 145,100 155,90'); // 小刺1
-        addPath('M 165,110 Q 175,100 165,90'); // 小刺2
+    if (/仙人掌|城市植物|苔蘚|植物|珊瑚|水母|海葵|海星|海膽/.test(name)) {
+        // 植物/海洋無脊椎動物輪廓
+        if (/珊瑚|水母|海葵|海星|海膽/.test(name)) {
+            // 珊瑚/水母輪廓
+            addPath('M 160,180 Q 140,160 130,140 Q 120,120 130,100 Q 140,80 160,70 Q 180,80 190,100 Q 200,120 190,140 Q 180,160 160,180'); // 珊瑚形輪廓
+            addPath('M 140,120 Q 130,110 120,120 Q 130,130 140,120'); // 觸手1
+            addPath('M 180,120 Q 190,110 200,120 Q 190,130 180,120'); // 觸手2
+            addPath('M 160,100 Q 150,90 140,100 Q 150,110 160,100'); // 觸手3
+        } else {
+            // 仙人掌輪廓
+            addPath('M 160,180 L 160,120'); // 主幹
+            addPath('M 140,140 Q 120,120 140,100 Q 160,90 180,100 Q 200,120 180,140'); // 左刺
+            addPath('M 180,140 Q 200,120 180,100 Q 160,90 140,100 Q 120,120 140,140'); // 右刺
+            addPath('M 150,130 Q 130,110 150,90 Q 170,85 190,90 Q 210,110 190,130'); // 上刺
+            addPath('M 170,130 Q 190,110 170,90 Q 150,85 130,90 Q 110,110 130,130'); // 下刺
+            addPath('M 155,110 Q 145,100 155,90'); // 小刺1
+            addPath('M 165,110 Q 175,100 165,90'); // 小刺2
+        }
         return svg;
     }
 
@@ -122,7 +131,12 @@ function createAnimalSvgElement(name, color) {
 function createAnimalShapeElement(org) {
     const wrapper = document.createElement('div');
     wrapper.className = 'animal-shape';
-    wrapper.appendChild(createAnimalSvgElement(org.name, getAnimalColor(org.name)));
+    const svg = createAnimalSvgElement(org.name, getAnimalColor(org.name));
+    wrapper.appendChild(svg);
+
+    // 添加調試信息
+    console.log(`Created SVG for ${org.name}:`, svg.outerHTML.substring(0, 200) + '...');
+
     return wrapper;
 }
 

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG 測試</title>
+    <style>
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .animal-shape {
+            width: 150px;
+            height: 100px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+        }
+        svg {
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>SVG 動物輪廓測試</h1>
+    <div class="test-container" id="testContainer"></div>
+
+    <script>
+        // 複製相關函數
+        const animalColors = {
+            '熊': '#FF6B6B', '海豚': '#85C1E2', '雪鴞': '#BB8FCE', '珊瑚': '#FF6B6B'
+        };
+
+        function getAnimalColor(name) {
+            return animalColors[name] || '#888888';
+        }
+
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+
+        function createSvgElement(tag, attrs = {}) {
+            const el = document.createElementNS(SVG_NS, tag);
+            Object.entries(attrs).forEach(([key, value]) => {
+                el.setAttribute(key, value);
+            });
+            return el;
+        }
+
+        function createAnimalSvgElement(name, color) {
+            const svg = createSvgElement('svg', { viewBox: '0 0 320 200', xmlns: SVG_NS });
+            const stroke = '#333';
+            const strokeWidth = '3';
+
+            function addPath(d, extra = {}) {
+                const attrs = { d, fill: 'none', stroke, 'stroke-width': strokeWidth, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', ...extra };
+                svg.appendChild(createSvgElement('path', attrs));
+            }
+
+            function addCircle(cx, cy, r, fill = 'none') {
+                const attrs = { cx, cy, r, fill, stroke, 'stroke-width': strokeWidth };
+                svg.appendChild(createSvgElement('circle', attrs));
+            }
+
+            // 鳥類輪廓
+            if (/鳥|鴿|麻雀|鷹|貓頭鴉|企鵝|鴕鳥|雪鴞|沙漠鳥|草原鳥|凍原鳥|城市鳥/.test(name)) {
+                addPath('M 80,160 Q 100,120 120,100 Q 140,80 160,90 Q 180,100 200,120 Q 220,140 240,160');
+                addPath('M 120,100 Q 110,85 100,90 Q 95,95 100,105');
+                addPath('M 160,90 Q 170,75 180,80 Q 185,85 180,95');
+                addPath('M 140,110 Q 130,95 120,100');
+                addPath('M 180,110 Q 190,95 200,100');
+                addPath('M 100,120 Q 80,110 70,130 Q 75,150 90,140');
+                addPath('M 220,120 Q 240,110 250,130 Q 245,150 230,140');
+                addPath('M 130,140 Q 120,155 110,150');
+                addPath('M 190,140 Q 200,155 210,150');
+                addCircle('115', '95', '3', 'none');
+                addCircle('185', '95', '3', 'none');
+                return svg;
+            }
+
+            // 魚類輪廓
+            if (/魚|鯊|鯨|章|魟|海馬|海豚|河豚|海象|海牛|龍蝦|鮟鱇|燈籠魚|烏賊|海龜|海蛇|鱟|海獺|海獅|海龍|海兔|海鰻|旗魚|小丑魚|白鯨|抹香鯨|大王烏賊|凍原魚/.test(name)) {
+                addPath('M 50,100 Q 80,70 120,80 Q 160,75 200,90 Q 240,100 260,110 Q 240,130 200,120 Q 160,125 120,120 Q 80,130 50,110 Z');
+                addPath('M 260,100 Q 280,85 290,95 Q 285,115 270,110');
+                addPath('M 50,95 Q 30,85 25,100 Q 30,115 50,105');
+                addPath('M 120,85 Q 110,75 100,80');
+                addPath('M 120,115 Q 110,125 100,120');
+                addCircle('70', '100', '4', 'none');
+                return svg;
+            }
+
+            // 爬行類輪廓
+            if (/蛇|蜥蜴|龜|烏龜|變色龍|眼鏡蛇|沙漠狐|蝙蝠|蠍子/.test(name)) {
+                addPath('M 40,120 Q 60,110 80,115 Q 100,120 120,115 Q 140,110 160,120 Q 180,130 200,125 Q 220,120 240,125 Q 260,130 280,125 Q 290,120 295,130');
+                addPath('M 40,125 Q 35,135 45,140 Q 50,135 45,125');
+                addPath('M 295,130 Q 300,140 310,135 Q 305,125 295,130');
+                addPath('M 120,115 Q 115,105 110,110');
+                addPath('M 160,120 Q 155,110 150,115');
+                addPath('M 200,125 Q 195,115 190,120');
+                addCircle('45', '135', '2', 'none');
+                return svg;
+            }
+
+            // 植物/海洋無脊椎動物輪廓
+            if (/仙人掌|城市植物|苔蘚|植物|珊瑚|水母|海葵|海星|海膽/.test(name)) {
+                if (/珊瑚|水母|海葵|海星|海膽/.test(name)) {
+                    addPath('M 160,180 Q 140,160 130,140 Q 120,120 130,100 Q 140,80 160,70 Q 180,80 190,100 Q 200,120 190,140 Q 180,160 160,180');
+                    addPath('M 140,120 Q 130,110 120,120 Q 130,130 140,120');
+                    addPath('M 180,120 Q 190,110 200,120 Q 190,130 180,120');
+                    addPath('M 160,100 Q 150,90 140,100 Q 150,110 160,100');
+                } else {
+                    addPath('M 160,180 L 160,120');
+                    addPath('M 140,140 Q 120,120 140,100 Q 160,90 180,100 Q 200,120 180,140');
+                    addPath('M 180,140 Q 200,120 180,100 Q 160,90 140,100 Q 120,120 140,140');
+                    addPath('M 150,130 Q 130,110 150,90 Q 170,85 190,90 Q 210,110 190,130');
+                    addPath('M 170,130 Q 190,110 170,90 Q 150,85 130,90 Q 110,110 130,130');
+                    addPath('M 155,110 Q 145,100 155,90');
+                    addPath('M 165,110 Q 175,100 165,90');
+                }
+                return svg;
+            }
+
+            // 默認哺乳類輪廓
+            addPath('M 80,160 Q 100,140 120,130 Q 140,120 160,130 Q 180,140 200,160');
+            addPath('M 120,130 Q 110,110 100,120 Q 95,130 100,140');
+            addPath('M 160,130 Q 170,110 180,120 Q 185,130 180,140');
+            addPath('M 140,140 Q 130,125 120,135');
+            addPath('M 180,140 Q 190,125 200,135');
+            addPath('M 100,150 Q 80,140 70,160 Q 75,180 90,170');
+            addPath('M 220,150 Q 240,140 250,160 Q 245,180 230,170');
+            addPath('M 130,170 Q 120,185 110,180');
+            addPath('M 190,170 Q 200,185 210,180');
+            addCircle('115', '115', '4', 'none');
+            addCircle('185', '115', '4', 'none');
+
+            return svg;
+        }
+
+        function createAnimalShapeElement(org) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'animal-shape';
+            const svg = createAnimalSvgElement(org.name, getAnimalColor(org.name));
+            wrapper.appendChild(svg);
+
+            console.log(`Created SVG for ${org.name}:`, svg.outerHTML.substring(0, 200) + '...');
+
+            return wrapper;
+        }
+
+        // 測試動物
+        const testAnimals = [
+            { name: '熊', habitat: '森林' },
+            { name: '海豚', habitat: '海洋' },
+            { name: '雪鴞', habitat: '凍原' },
+            { name: '珊瑚', habitat: '海洋' },
+            { name: '仙人掌', habitat: '沙漠' }
+        ];
+
+        const container = document.getElementById('testContainer');
+
+        testAnimals.forEach(animal => {
+            const element = createAnimalShapeElement(animal);
+            const label = document.createElement('div');
+            label.textContent = animal.name;
+            label.style.textAlign = 'center';
+            label.style.marginBottom = '10px';
+
+            const item = document.createElement('div');
+            item.appendChild(label);
+            item.appendChild(element);
+            container.appendChild(item);
+        });
+    </script>
+</body>
+</html>
