@@ -85,6 +85,17 @@ section.habitat-card:hover {
     box-sizing: border-box;
 }
 
+#habitatResult .animal-card .animal-shape {
+    width: 100%;
+    height: 200px;
+}
+
+#habitatResult .animal-card .animal-shape svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
 #habitatResult .animal-card img {
     width: 100%;
     height: 200px;
